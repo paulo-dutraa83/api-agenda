@@ -33,6 +33,7 @@ public class CategoriasController {
 
     @GetMapping
     public ResponseEntity<?> get() {
+
         return ResponseEntity.ok().body(categoriaService.consultar());
     }
 
