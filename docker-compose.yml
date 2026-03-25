@@ -1,0 +1,40 @@
+services:
+
+  db_agenda:
+    image: postgres:16
+    container_name: postgres-agenda
+    restart: always
+    environment:
+      POSTGRES_DB: agendadb
+      POSTGRES_USER: agenda
+      POSTGRES_PASSWORD: agenda123
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - agenda-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin-agenda
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5051:80"
+    depends_on:
+      - db_agenda
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - agenda-network
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  agenda-network:
+    driver: bridge
